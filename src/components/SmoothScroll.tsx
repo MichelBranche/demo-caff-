@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useRef, type ReactNode } from "react";
 import Lenis from "lenis";
 import { gsap, ScrollTrigger } from "../lib/gsap";
+import { beginScrollPass, endScrollPass } from "../lib/scrollPass";
 
 const ScrollContext = createContext<(target: string) => void>(() => {});
 
@@ -45,7 +46,13 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
     if (!(node instanceof HTMLElement)) return;
     const lenis = lenisRef.current;
     if (lenis) {
-      lenis.scrollTo(node, { offset: -8, force: true });
+      const pass = beginScrollPass();
+      lenis.start();
+      lenis.scrollTo(node, {
+        offset: -8,
+        force: true,
+        onComplete: () => endScrollPass(pass),
+      });
       return;
     }
     node.scrollIntoView({ behavior: "smooth", block: "start" });

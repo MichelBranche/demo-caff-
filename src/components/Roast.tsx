@@ -140,7 +140,7 @@ export function Roast() {
       observer.disable();
 
       const engage = (trigger: ScrollTrigger, panel: number) => {
-        if (passing || locked) return;
+        if (passing || locked || window.__scrollPass) return;
         locked = true;
         cool = true;
         travel = 0;
@@ -157,12 +157,39 @@ export function Roast() {
       };
 
       const disengage = () => {
+        if (window.__scrollPass) {
+          locked = false;
+          cool = false;
+          observer.disable();
+          return;
+        }
         if (passing) return;
         locked = false;
         cool = false;
         observer.disable();
         window.__lenis?.start();
       };
+
+      const releaseForPass = () => {
+        locked = false;
+        cool = false;
+        glide += 1;
+        gsap.killTweensOf([track, fill]);
+        observer.disable();
+      };
+
+      const resumeAfterPass = () => {
+        const trigger = ScrollTrigger.getById("roast-steps");
+        if (!trigger || locked || passing || window.__scrollPass) return;
+        const y = window.scrollY;
+        if (y < trigger.start || y > trigger.end) return;
+        const span = Math.max(1, trigger.end - trigger.start);
+        const panel = y > trigger.start + span * 0.5 ? count() - 1 : 0;
+        engage(trigger, panel);
+      };
+
+      window.addEventListener("scroll-pass-start", releaseForPass);
+      window.addEventListener("scroll-pass-end", resumeAfterPass);
 
       ScrollTrigger.create({
         id: "roast-steps",
@@ -185,6 +212,8 @@ export function Roast() {
       return () => {
         calls.forEach((tween) => tween.kill());
         observer.kill();
+        window.removeEventListener("scroll-pass-start", releaseForPass);
+        window.removeEventListener("scroll-pass-end", resumeAfterPass);
         ScrollTrigger.removeEventListener("refresh", sync);
         window.__lenis?.start();
       };

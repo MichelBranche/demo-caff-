@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { beginScrollPass, endScrollPass } from "../lib/scrollPass";
 import { Magnetic } from "./Magnetic";
 
 export function BackToTop() {
@@ -14,8 +15,12 @@ export function BackToTop() {
   const go = () => {
     const lenis = window.__lenis;
     if (lenis) {
+      const pass = beginScrollPass();
       lenis.start();
-      lenis.scrollTo(0, { force: true });
+      lenis.scrollTo(0, {
+        force: true,
+        onComplete: () => endScrollPass(pass),
+      });
       return;
     }
     window.scrollTo({ top: 0, behavior: "auto" });
