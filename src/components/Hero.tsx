@@ -307,7 +307,7 @@ export function Hero() {
         const title = section.querySelector<HTMLElement>("[data-hero-title]");
         const lines = section.querySelectorAll<HTMLElement>("[data-hero-line]");
 
-        visuals.forEach((visual, index) => {
+        visuals.forEach((visual) => {
           const rot = Number(desktop ? visual.dataset.deskRot : visual.dataset.rot);
           const scale = Number(visual.dataset.scale);
           const wobble = desktop ? 2.5 : 5;
