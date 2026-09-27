@@ -72,6 +72,8 @@ export function Capsules() {
                   className="absolute top-0 left-1/2 h-[112%] w-auto max-w-none"
                   width="1280"
                   height="720"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
               <div className="md:col-span-6 md:col-start-7">

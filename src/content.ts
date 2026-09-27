@@ -28,16 +28,28 @@ export const origins = [
 export const plantPhotos = [
   {
     src: "/media/plants/leaves.jpg",
+    webp: "/media/plants/leaves.webp",
+    avif: "/media/plants/leaves.avif",
+    width: 1000,
+    height: 1500,
     alt: "Pianta di caffè con foglie lucide e ciliegie ancora verdi",
     caption: "Ciliegie ancora verdi sulla pianta.",
   },
   {
     src: "/media/plants/branch.jpg",
+    webp: "/media/plants/branch.webp",
+    avif: "/media/plants/branch.avif",
+    width: 1000,
+    height: 667,
     alt: "Ramo di caffè con ciliegie che iniziano a maturare",
     caption: "Il ramo, tra luce e ombra.",
   },
   {
     src: "/media/plants/cherries.jpg",
+    webp: "/media/plants/cherries.webp",
+    avif: "/media/plants/cherries.avif",
+    width: 1000,
+    height: 1500,
     alt: "Ciliegie di caffè mature, rosse e gialle, sul ramo",
     caption: "Ciliegie mature, pronte per il raccolto.",
   },

@@ -8,10 +8,10 @@ const deck =
   "Microtorrefazione indipendente in Valle d’Aosta. Selezioniamo caffè di specialità, lavoriamo piccoli lotti e tostiamo ogni origine per valorizzarne il carattere.";
 
 const beans = [
-  { src: "/media/roast/bean-1-verde", top: "10px", left: "16px", width: 170, scale: 1, rot: -16, deskRot: -6, blur: 0, depth: 10, dx: -28, dy: -16, deskDx: -10, deskDy: -6, opacity: 1, front: false, mobile: true, spot: "left" },
-  { src: "/media/roast/bean-4-scura", top: "78%", left: "46%", width: 230, scale: 1, rot: 12, deskRot: 5, blur: 0, depth: 12, dx: 32, dy: -18, deskDx: 8, deskDy: 10, opacity: 1, front: false, mobile: true, spot: "bottom" },
-  { src: "/media/roast/bean-3-media", top: "46%", left: "68%", width: 200, scale: 1, rot: -3, deskRot: -3, blur: 0, depth: 8, dx: 10, dy: -4, deskDx: 10, deskDy: -4, opacity: 1, front: false, mobile: true, spot: "band" },
-  { src: "/media/roast/bean-2-chiara", top: "12px", left: "46%", width: 130, scale: 1, rot: 6, deskRot: 6, blur: 0, depth: 8, dx: -6, dy: -6, deskDx: -6, deskDy: -6, opacity: 1, front: false, mobile: true, spot: "center" },
+  { src: "/media/roast/bean-1-verde", top: "10px", left: "16px", width: 170, scale: 1, rot: -16, deskRot: -6, blur: 0, depth: 10, dx: -8, dy: -16, deskDx: -10, deskDy: -6, opacity: 1, front: false, mobile: true, spot: "left" },
+  { src: "/media/roast/bean-4-scura", top: "78%", left: "46%", width: 230, scale: 1, rot: 12, deskRot: 5, blur: 0, depth: 12, dx: 8, dy: -18, deskDx: 8, deskDy: 10, opacity: 1, front: false, mobile: true, spot: "bottom" },
+  { src: "/media/roast/bean-3-media", top: "46%", left: "68%", width: 200, scale: 1, rot: -3, deskRot: -3, blur: 0, depth: 8, dx: 6, dy: -4, deskDx: 10, deskDy: -4, opacity: 1, front: false, mobile: true, spot: "band" },
+  { src: "/media/roast/bean-2-chiara", top: "12px", left: "46%", width: 130, scale: 1, rot: 6, deskRot: 6, blur: 0, depth: 8, dx: -4, dy: -6, deskDx: -6, deskDy: -6, opacity: 1, front: false, mobile: true, spot: "center" },
 ] as const;
 
 const beanInk: Record<string, { l: number; t: number; r: number; b: number }> = {
@@ -210,10 +210,10 @@ function HeroActions() {
   const scrollTo = useAnchorScroll();
 
   return (
-    <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center">
+    <div className="flex flex-col items-start gap-4 lg:flex-row lg:items-center">
       <Magnetic>
         <a
-          className="btn btn-fill"
+          className="btn btn-fill whitespace-nowrap"
           href="#origini"
           onClick={(event) => {
             event.preventDefault();
@@ -226,7 +226,7 @@ function HeroActions() {
       </Magnetic>
       <Magnetic pull={0.4}>
         <a
-          className="btn btn-quiet"
+          className="btn btn-quiet whitespace-nowrap"
           href="#visita"
         onClick={(event) => {
           event.preventDefault();
@@ -242,7 +242,7 @@ function HeroActions() {
 
 function HeroTitle({ children }: { children: ReactNode }) {
   return (
-    <h1 className="headline hero-title" data-hero-title>
+    <h1 className="headline hero-title" data-hero-title aria-label="Il caffè, senza compromessi.">
       {children}
     </h1>
   );
@@ -305,7 +305,6 @@ export function Hero() {
         const visuals = slots.map((slot) => slot.querySelector<HTMLElement>(".bean-visual")).filter((el): el is HTMLElement => el instanceof HTMLElement);
         const movers = slots.map((slot) => slot.querySelector<HTMLElement>(".bean-mouse")).filter((el): el is HTMLElement => el instanceof HTMLElement);
         const title = section.querySelector<HTMLElement>("[data-hero-title]");
-        const lines = section.querySelectorAll<HTMLElement>("[data-hero-line]");
 
         visuals.forEach((visual) => {
           const rot = Number(desktop ? visual.dataset.deskRot : visual.dataset.rot);
@@ -323,31 +322,22 @@ export function Hero() {
         });
 
         const rule = section.querySelector<HTMLElement>(".hero-rule");
-        if (lines.length) {
-          const intro = gsap.timeline({ delay: 0.05 });
-          intro.fromTo(
-            lines,
-            { yPercent: 110 },
-            { yPercent: 0, duration: 1.05, stagger: 0.08, ease: "power3.out" },
-          );
-          if (rule) {
-            gsap.set(rule, { scaleX: 0, transformOrigin: "left center" });
-            intro.to(rule, { scaleX: 1, duration: 1.15, ease: "power3.inOut" }, ">");
-          }
-          const roastLetters = [...section.querySelectorAll<HTMLElement>("[data-hero-roast]")];
-          if (roastLetters.length) {
-            const coffee = getComputedStyle(document.documentElement).getPropertyValue("--color-coffee").trim();
-            const ink = getComputedStyle(document.documentElement).getPropertyValue("--color-ink").trim();
-            gsap.set(roastLetters, { color: ink });
-            const colorLoop = gsap.timeline({ paused: true, repeat: -1, yoyo: true, repeatDelay: 1.15 });
-            colorLoop.to(roastLetters, {
-              color: coffee,
-              duration: 0.42,
-              stagger: 0.28,
-              ease: "power2.inOut",
-            });
-            intro.call(() => colorLoop.play(), undefined, ">");
-          }
+        if (rule) {
+          gsap.set(rule, { scaleX: 0, transformOrigin: "left center" });
+          gsap.to(rule, { scaleX: 1, duration: 1.15, delay: 1.13, ease: "power3.inOut" });
+        }
+        const roastLetters = [...section.querySelectorAll<HTMLElement>("[data-hero-roast]")];
+        if (roastLetters.length) {
+          const coffee = getComputedStyle(document.documentElement).getPropertyValue("--color-coffee").trim();
+          const ink = getComputedStyle(document.documentElement).getPropertyValue("--color-ink").trim();
+          gsap.set(roastLetters, { color: ink });
+          gsap.to(roastLetters, {
+            color: coffee,
+            duration: 0.42,
+            stagger: 0.28,
+            delay: 2.28,
+            ease: "power2.inOut",
+          });
         }
         gsap.from(visuals, { autoAlpha: 0, duration: 1.15, stagger: 0.05, delay: 0.08, ease: "power2.out" });
 
@@ -437,8 +427,20 @@ export function Hero() {
                 }
               >
                 <picture>
-                  <source srcSet={`${bean.src}.webp`} type="image/webp" />
-                  <img src={`${bean.src}.png`} alt="" width={1600} height={1200} draggable={false} />
+                  <source
+                    srcSet={`${bean.src}-480.webp 480w, ${bean.src}-960.webp 960w`}
+                    sizes="(max-width: 767px) 100px, 240px"
+                    type="image/webp"
+                  />
+                  <img
+                    src={`${bean.src}.png`}
+                    alt=""
+                    width={960}
+                    height={720}
+                    decoding="async"
+                    fetchPriority="low"
+                    draggable={false}
+                  />
                 </picture>
               </div>
             </div>
