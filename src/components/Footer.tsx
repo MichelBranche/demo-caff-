@@ -49,11 +49,11 @@ export function Footer() {
             <p className="eyebrow text-muted">Contatti</p>
             <p className="mt-4">Località Pian di Lenta, Valle d’Aosta</p>
             <p className="mt-3">
-              <a className="link-draw" href="mailto:visita@orma.coffee">
+              <a className="link-draw tap-link" href="mailto:visita@orma.coffee">
                 visita@orma.coffee
               </a>
               <br />
-              <a className="link-draw" href="tel:+390165440218">
+              <a className="link-draw tap-link" href="tel:+390165440218">
                 +39 0165 440 218
               </a>
             </p>

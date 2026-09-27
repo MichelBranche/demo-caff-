@@ -23,7 +23,7 @@ export function Visit() {
         <div className="flex justify-center">
           <SectionLabel index="07" label="Visita" />
         </div>
-        <h2 data-reveal-block className="headline display mt-8 text-center">
+        <h2 data-reveal-block className="headline display mt-8 text-center" aria-label="La torrefazione è aperta a chi vuole conoscerla.">
           <span className="line">
             <span className="line-inner" data-reveal>
               La torrefazione è aperta
@@ -68,11 +68,11 @@ export function Visit() {
         <div className="mt-16 grid gap-8 border-t border-line pt-8 text-center text-sm sm:grid-cols-3">
           <p>Località Pian di Lenta, Valle d’Aosta</p>
           <p>
-            <a className="link-draw" href="mailto:visita@orma.coffee">
+            <a className="link-draw tap-link" href="mailto:visita@orma.coffee">
               visita@orma.coffee
             </a>
             <br />
-            <a className="link-draw" href="tel:+390165440218">
+            <a className="link-draw tap-link" href="tel:+390165440218">
               +39 0165 440 218
             </a>
           </p>

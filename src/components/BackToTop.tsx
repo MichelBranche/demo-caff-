@@ -6,10 +6,24 @@ export function BackToTop() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.65);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const sync = () => {
+      const pin = document.querySelector("[data-roast-pin]");
+      let pinned = false;
+      if (pin) {
+        const rect = pin.getBoundingClientRect();
+        pinned = rect.top < 8 && rect.bottom > window.innerHeight * 0.7;
+      }
+      document.documentElement.toggleAttribute("data-roast-pinned", pinned);
+      setVisible(window.scrollY > window.innerHeight * 0.65 && !pinned);
+    };
+    sync();
+    window.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+    return () => {
+      window.removeEventListener("scroll", sync);
+      window.removeEventListener("resize", sync);
+      document.documentElement.removeAttribute("data-roast-pinned");
+    };
   }, []);
 
   const go = () => {

@@ -12,7 +12,7 @@ export function Manifesto() {
         <div className="flex justify-center">
           <SectionLabel index="02" label="Metodo" />
         </div>
-        <h2 data-reveal-block className="headline display mt-8 text-center">
+        <h2 data-reveal-block className="headline display mt-8 text-center" aria-label="Ogni caffè richiede il suo approccio.">
           <span className="line">
             <span className="line-inner" data-reveal>
               Ogni caffè richiede

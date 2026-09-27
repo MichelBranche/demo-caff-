@@ -44,7 +44,11 @@ export function Origins() {
         <div className="flex justify-center">
           <SectionLabel index="03" label="Origini" />
         </div>
-        <h2 data-reveal-block className="headline mt-8 text-center text-[clamp(2.5rem,4.6vw,4.4rem)]">
+        <h2
+          data-reveal-block
+          className="headline mt-8 text-center text-[clamp(2.5rem,4.6vw,4.4rem)]"
+          aria-label="Conosciamo da dove viene il nostro caffè."
+        >
           <span className="line">
             <span className="line-inner" data-reveal>
               Conosciamo da dove
@@ -79,14 +83,20 @@ export function Origins() {
               >
                 <figure className={photoOnRight ? "md:col-span-5 md:col-start-8" : "md:col-span-5"}>
                   <div className="relative aspect-[5/4] overflow-hidden bg-paper-deep" data-frame>
-                    <img
-                      data-plant
-                      src={photo.src}
-                      alt={photo.alt}
-                      className="absolute top-0 left-0 h-[132%] w-full max-w-none object-cover"
-                      width="1600"
-                      height="1280"
-                    />
+                    <picture>
+                      <source srcSet={photo.avif} type="image/avif" />
+                      <source srcSet={photo.webp} type="image/webp" />
+                      <img
+                        data-plant
+                        src={photo.src}
+                        alt={photo.alt}
+                        className="absolute top-0 left-0 h-[132%] w-full max-w-none object-cover"
+                        width={photo.width}
+                        height={photo.height}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
                   </div>
                   <figcaption className="mt-3 text-sm text-muted">{photo.caption}</figcaption>
                 </figure>
