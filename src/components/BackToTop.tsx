@@ -13,8 +13,9 @@ export function BackToTop() {
         const rect = pin.getBoundingClientRect();
         pinned = rect.top < 8 && rect.bottom > window.innerHeight * 0.7;
       }
-      document.documentElement.toggleAttribute("data-roast-pinned", pinned);
-      setVisible(window.scrollY > window.innerHeight * 0.65 && !pinned);
+      const show = window.scrollY > window.innerHeight * 0.65;
+      document.documentElement.toggleAttribute("data-backtotop-hidden", !show || pinned);
+      setVisible(show && !pinned);
     };
     sync();
     window.addEventListener("scroll", sync, { passive: true });
@@ -22,7 +23,7 @@ export function BackToTop() {
     return () => {
       window.removeEventListener("scroll", sync);
       window.removeEventListener("resize", sync);
-      document.documentElement.removeAttribute("data-roast-pinned");
+      document.documentElement.removeAttribute("data-backtotop-hidden");
     };
   }, []);
 

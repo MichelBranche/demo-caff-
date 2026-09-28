@@ -14,7 +14,18 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
+    if (reduce) {
+      const hash = window.location.hash;
+      if (hash.length > 1) {
+        try {
+          const node = document.querySelector(hash);
+          if (node instanceof HTMLElement) node.scrollIntoView({ block: "start" });
+        } catch {
+          /* hash non valido */
+        }
+      }
+      return;
+    }
 
     const lenis = new Lenis({
       duration: 1.12,
@@ -30,7 +41,28 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
     gsap.ticker.lagSmoothing(0);
     lenisRef.current = lenis;
     window.__lenis = lenis;
-    const refresh = requestAnimationFrame(() => ScrollTrigger.refresh());
+    const scrollToHash = () => {
+      const hash = window.location.hash;
+      if (hash.length < 2) return;
+      let node: Element | null = null;
+      try {
+        node = document.querySelector(hash);
+      } catch {
+        return;
+      }
+      if (!(node instanceof HTMLElement)) return;
+      const pass = beginScrollPass();
+      lenis.scrollTo(node, {
+        immediate: true,
+        force: true,
+        offset: -8,
+        onComplete: () => endScrollPass(pass),
+      });
+    };
+    const refresh = requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+      requestAnimationFrame(scrollToHash);
+    });
 
     return () => {
       cancelAnimationFrame(refresh);

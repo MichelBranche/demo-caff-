@@ -238,7 +238,14 @@ export function Roast() {
           return;
         }
 
-        const direction = event.key === "ArrowDown" || event.key === "ArrowRight" ? 1 : event.key === "ArrowUp" || event.key === "ArrowLeft" ? -1 : 0;
+        const direction = event.key === "ArrowDown" || event.key === "ArrowRight" ? 1 : 0;
+        if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+          if (!locked) return;
+          event.preventDefault();
+          bypassUntil = performance.now() + 800;
+          leave(-1);
+          return;
+        }
         if (!direction) return;
         bypassUntil = 0;
         arrowAt = performance.now();

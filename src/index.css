@@ -377,6 +377,7 @@ body {
   pointer-events: auto;
 }
 
+html[data-backtotop-hidden] .to-top-slot,
 html[data-roast-pinned] .to-top-slot {
   opacity: 0;
   visibility: hidden;
